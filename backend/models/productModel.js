@@ -1,6 +1,6 @@
-import mongoose, { mongo, Mongoose } from 'mongoose'
+const mongoose = require("mongoose");
 
-const product = new Mongoose.Schema({
+const product = new mongoose.Schema({
     name : {
         type : String,
         required : [true, "Enter name of the product"]
