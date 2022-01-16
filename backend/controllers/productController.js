@@ -1,3 +1,4 @@
+const { findByIdAndDelete } = require("../models/productModel");
 const Product = require("../models/productModel");
 
 // CREATE PRODUCT 
@@ -16,4 +17,41 @@ exports.getAllProducts = async (req, res) => {
         success : true,
         products
     })
+}
+
+exports.updateProduct = async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if(!product){
+        return res.status(500).json({
+            success : false,
+            message : "product not found"
+        })
+    }
+
+    const updatedProduct  = await Product.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators : true,
+        useFindAndModify : false,
+    })
+
+    res.status(200).json({
+        success : true,
+        product
+    })
+}
+
+exports.deleteProduct = async (req, res) => {
+    let product = await Product.findById(req.params.id);
+    if(!product){
+        return res.status(500).json({
+            success : false,
+            message : "element not found" 
+        })
+    }else{
+        await product.remove();
+        res.status(200).json({
+        success : true,
+        message : "product deleted"
+    })
+}
 }
