@@ -1,25 +1,26 @@
 const { findByIdAndDelete } = require("../models/productModel");
 const Product = require("../models/productModel");
+const TryCatch = require("../utils/catchAsyncErrors")
 
 // CREATE PRODUCT 
-exports.createProduct = async (req, res) => {
+exports.createProduct = TryCatch(async (req, res) => {
     const newProduct = await Product.create(req.body);
     res.status(201).json({
         success: true,
         newProduct
     })
-}
+})
 
 
-exports.getAllProducts = async (req, res) => {
+exports.getAllProducts = TryCatch(async (req, res) => {
     const products = await Product.find();
     res.status(201).json({
         success: true,
         products
     })
-}
+})
 
-exports.updateProduct = async (req, res) => {
+exports.updateProduct = TryCatch(async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
         return res.status(500).json({
@@ -38,9 +39,9 @@ exports.updateProduct = async (req, res) => {
         success: true,
         product
     })
-}
+})
 
-exports.deleteProduct = async (req, res) => {
+exports.deleteProduct = TryCatch(async (req, res) => {
     let product = await Product.findById(req.params.id);
     if (!product) {
         return res.status(500).json({
@@ -54,9 +55,9 @@ exports.deleteProduct = async (req, res) => {
             message: "product deleted"
         })
     }
-}
+})
 
-exports.getProductDetails = async (req, res) => {
+exports.getProductDetails = TryCatch( async (req, res) => {
     const product = await Product.findById(req.params.id);
     if(!product){
         return res.status(500).json({
@@ -68,4 +69,4 @@ exports.getProductDetails = async (req, res) => {
         success : true,
         product
     })
-}
+})
