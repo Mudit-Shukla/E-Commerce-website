@@ -1,6 +1,7 @@
 const { findByIdAndDelete } = require("../models/productModel");
 const Product = require("../models/productModel");
-const TryCatch = require("../utils/catchAsyncErrors")
+const TryCatch = require("../middlewares/catchAsyncErrors");
+const ApiFeatures = require("../utils/apiFeatures");
 
 // CREATE PRODUCT 
 exports.createProduct = TryCatch(async (req, res) => {
@@ -13,7 +14,8 @@ exports.createProduct = TryCatch(async (req, res) => {
 
 
 exports.getAllProducts = TryCatch(async (req, res) => {
-    const products = await Product.find();
+    const apiFeatures = new ApiFeatures(Product.find(), req.query).search();
+    const products = await apiFeatures.query;
     res.status(201).json({
         success: true,
         products
