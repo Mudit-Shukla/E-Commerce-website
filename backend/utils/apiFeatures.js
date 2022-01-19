@@ -24,7 +24,17 @@ class ApiFeatures {
         const copiedQuery = {...this.queryString};
         const wordToBeRemoved = ["keyword"];
         wordToBeRemoved.forEach((key) => delete copiedQuery[key]);
-        this.query = this.query.find(copiedQuery);
+
+        // filter for price range and rating  //
+
+        // console.log(copiedQuery);
+
+        let queryString = JSON.stringify(copiedQuery);
+        queryString = queryString.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
+
+        // console.log(queryString);
+
+        this.query = this.query.find(JSON.parse(queryString));
         return this;
     }
 };
