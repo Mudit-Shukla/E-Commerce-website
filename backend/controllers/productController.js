@@ -14,7 +14,7 @@ exports.createProduct = TryCatch(async (req, res) => {
 
 
 exports.getAllProducts = TryCatch(async (req, res) => {
-    const apiFeatures = new ApiFeatures(Product.find(), req.query).search();
+    const apiFeatures = new ApiFeatures(Product.find(), req.query).search().filter();
     const products = await apiFeatures.query;
     res.status(201).json({
         success: true,

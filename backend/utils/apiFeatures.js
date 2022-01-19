@@ -19,6 +19,14 @@ class ApiFeatures {
         this.query = this.query.find({...keyword});
         return this;
     }
+
+    filter(){
+        const copiedQuery = {...this.queryString};
+        const wordToBeRemoved = ["keyword"];
+        wordToBeRemoved.forEach((key) => delete copiedQuery[key]);
+        this.query = this.query.find(copiedQuery);
+        return this;
+    }
 };
 
 module.exports = ApiFeatures;
