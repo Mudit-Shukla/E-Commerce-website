@@ -22,7 +22,7 @@ class ApiFeatures {
 
     filter(){
         const copiedQuery = {...this.queryString};
-        const wordToBeRemoved = ["keyword"];
+        const wordToBeRemoved = ["keyword", "limit", "page"];
         wordToBeRemoved.forEach((key) => delete copiedQuery[key]);
 
         // filter for price range and rating  //
@@ -35,6 +35,13 @@ class ApiFeatures {
         // console.log(queryString);
 
         this.query = this.query.find(JSON.parse(queryString));
+        return this;
+    }
+
+    pagination(resultsPerPage){
+        const currentPage = Number (this.queryString.page) || 1;
+        const skipNumberOfProducts = resultsPerPage * (currentPage - 1);
+        this.query = this.query.limit(resultsPerPage).skip(skipNumberOfProducts);
         return this;
     }
 };
