@@ -2,9 +2,12 @@ const { findByIdAndDelete } = require("../models/productModel");
 const Product = require("../models/productModel");
 const TryCatch = require("../middlewares/catchAsyncErrors");
 const ApiFeatures = require("../utils/apiFeatures");
+const User = require("../models/userModel");
 
 // CREATE PRODUCT 
 exports.createProduct = TryCatch(async (req, res) => {
+    console.log(req.user)
+    req.body.userId = req.user.id;
     const newProduct = await Product.create(req.body);
     res.status(201).json({
         success: true,

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("../models/userModel");
 
 const product = new mongoose.Schema({
     name : {
@@ -57,6 +58,12 @@ const product = new mongoose.Schema({
             type : String
         }
     }],
+
+    userId : {
+        type : mongoose.Schema.ObjectId,
+        ref : User,
+        required : true,
+    },
 
     createdAt : {
         type : Date,
