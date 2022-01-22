@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 
 const user = new mongoose.Schema({
     name : {
@@ -56,5 +57,12 @@ user.pre("save", async function(next){
          expiresIn : process.env.JWT_EXPIRY,
      })
  }
+
+ //  ******** COMPARE PASSWORD  *********** //
+ user.methods.comparePassword = async function(enteredPassword){
+     return await bcrypt.compare(enteredPassword, this.password)
+ }
+
+
 
 module.exports = mongoose.model("User", user);

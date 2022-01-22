@@ -21,6 +21,37 @@ exports.registerUser = catchAsyncErrors(async(req, res) => {
     res.status(201).json({
         success : true,
         token
-    })
+    });
 
-})
+});
+
+     // ******** LOGIN USER  ******** //
+exports.loginUser = catchAsyncErrors (async (req, res, next) => {
+
+    const{email, password} = req.body;
+
+    if(!email || !password)
+        return next();
+
+    const user = await User.findOne({email : email}).select("+password");
+    console.log(user);
+
+    if(!user){
+        console.log("user not found");
+        return next();
+    }
+
+    const isPasswordMatched = user.comparePassword(password);
+    
+    if(!isPasswordMatched){
+        console.log("password not matched");
+        return next();
+    }
+
+    const token = user.getJWTToken();
+    
+    res.status(200).json({
+        success : true,
+        token,
+    })
+ })
