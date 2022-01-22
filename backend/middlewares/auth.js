@@ -4,11 +4,11 @@ const User = require("../models/userModel");
 
 exports.isAuthenticated = catchAsyncErrors(async(req, res, next) => {
     const {token} = req.cookies;
-    console.log(token)
 
     if(!token){
-        console.log("please login to excess the resource");
-        return next()
+        return next(() => {
+            console.log("please login to access the resource")
+        });
     }
 
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
