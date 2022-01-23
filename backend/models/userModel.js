@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 
 const user = new mongoose.Schema({
@@ -36,6 +37,9 @@ const user = new mongoose.Schema({
        type : String,
        default : "user",
     },
+
+    resetPasswordToken : String,
+    resetPasswordExpire : Date,
 });
 
 user.pre("save", async function(next){
@@ -61,6 +65,18 @@ user.pre("save", async function(next){
  //  ******** COMPARE PASSWORD  *********** //
  user.methods.comparePassword = async function(enteredPassword){
      return await bcrypt.compare(enteredPassword, this.password)
+ }
+
+ // *********  RESET PASSWORD TOKEN GENERATION  ********** //
+
+ user.methods.getResetPasswordToken = function(){
+    
+    // Generating token
+    // THIS WILL BE RESET PASSWORD LINK FOR THE USER
+    this.resetPasswordToken = crypto.createHash("sha256").digest("hex");
+    // THIS WILL ENABLE RESET PASSWORD LINK ENABLED FOR ONLY 10 MINUTES
+    this.resetPasswordExpire = Date.now() + 10 * 60 *1000
+    return this.resetPasswordToken;
  }
 
 
