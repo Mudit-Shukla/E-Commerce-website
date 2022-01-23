@@ -1,7 +1,9 @@
+const { use } = require("express/lib/application");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto")
 
 // *********  REGISTER USER  **********//
 
@@ -104,4 +106,31 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
     }
 
+})
+
+// ********** RESET PASSWORD ********* //
+
+exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+    // CREATING TOKEN HASH 
+    const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+    const user =await  User.findOne({
+        resetPassword : resetPasswordToken,
+        resetPasswordExpire : {$gt : Date.now()},
+    })
+
+    if(!user){
+        return next(() => console.log("reset password link expired"))
+    }
+
+    if(req.body.password !== req.body.confirmPassword){
+        return next(() => console.log("Password not matched"));
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordExpire = undefined;
+    user.resetPasswordToken = undefined;
+
+    await user.save();
+    sendToken(user, 200, res);
+    next( () => console.log("Password changed successfully"));
 })

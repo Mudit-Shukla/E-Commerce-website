@@ -72,12 +72,15 @@ user.pre("save", async function(next){
  user.methods.getResetPasswordToken = function(){
     
     // Generating token
+    const resetToken = crypto.randomBytes(15).toString("hex") 
     // THIS WILL BE RESET PASSWORD LINK FOR THE USER
-    this.resetPasswordToken = crypto.createHash("sha256").digest("hex");
+    this.resetPasswordToken = crypto.createHash("sha256").update
+    (resetToken).digest("hex");
     // THIS WILL ENABLE RESET PASSWORD LINK ENABLED FOR ONLY 10 MINUTES
     this.resetPasswordExpire = Date.now() + 10 * 60 *1000
-    return this.resetPasswordToken;
- }
+
+    return resetToken;
+}
 
 
 
