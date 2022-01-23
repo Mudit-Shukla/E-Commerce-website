@@ -134,3 +134,31 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
     sendToken(user, 200, res);
     next( () => console.log("Password changed successfully"));
 })
+
+// ********** GET USER DETAILS ********** //
+exports.getUserDetails = catchAsyncErrors( async (req,res, next) => {
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success : true,
+        user,
+    })
+})
+
+// *********** UPDATE USER PASSWORD ************ //
+exports.updatePassword = catchAsyncErrors(async(req, res, next) => {
+    const user = await User.findById(req.user.id).select("+password");
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+    if(!isPasswordMatched){
+        return next(() => console.log("Old password is not valid"));
+    }
+
+    if(req.body.newPassword !== req.body.confirmPassword){
+        return next(() => console.log("Password not matched"));
+    }
+
+    user.password = req.body.newPassword;
+    await user.save();
+    sendToken(user, 200, res);
+})
