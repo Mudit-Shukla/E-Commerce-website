@@ -164,7 +164,7 @@ exports.updatePassword = catchAsyncErrors(async(req, res, next) => {
 })
 
 //  **********  UPDATE USER PROFILE ********* //
-const updateProfile = catchAsyncErrors(async(req, res, next) => {
+exports.updateProfile = catchAsyncErrors(async(req, res, next) => {
     const newUserData = {
         name : req.body.email,
         email : req.body.email,
@@ -179,5 +179,28 @@ const updateProfile = catchAsyncErrors(async(req, res, next) => {
         success : true,
         message : "Profile updated",
         user
+    })
+})
+
+// ******* GET ALL USERS (API FOR ADMIN ONLY)  ********* //
+exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
+    const users = await User.find();
+    res.status(200).json({
+        success : true,
+        users
+    })
+})
+
+//  ****** GET SINGLE USER DETAILS (API FOR ADMIN ONLY)  ******** //
+exports.getSingleUserDetails = catchAsyncErrors( async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if(!user){
+        return next(() =>  console.log("user not exist"))
+    }
+
+    res.status(200).json({
+        success : true,
+        user,
     })
 })
