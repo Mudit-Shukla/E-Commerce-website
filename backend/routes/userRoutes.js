@@ -13,7 +13,7 @@ router.route("/changePassword").put(isAuthenticated, updatePassword);
 router.route("/me/updateProfile").put(isAuthenticated, updateProfile);
 router.route("/admin/users").get(isAuthenticated, authorizeRole("user"), getAllUser);
 router.route("/admin/user/:id").get(isAuthenticated, authorizeRole("user"), getSingleUserDetails);
-router.route("/admin/ser/:id").put(isAuthenticated, authorizeRole("Admin"), updateUserRole);
+router.route("/admin/user/:id").put(isAuthenticated, authorizeRole("Admin"), updateUserRole);
 router.route("/admin/user/:id").delete(isAuthenticated, authorizeRole("Admin"), deleteUser);
 
 

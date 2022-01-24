@@ -78,3 +78,47 @@ exports.getProductDetails = TryCatch( async (req, res) => {
         product
     })
 })
+
+// ******** CREATE PRODUCT REVIEW AND UPDATE IT  ******** //
+exports.createProductReview = TryCatch(async (req, res, next) => {
+   
+    const {rating, comment, productId} = req.body;
+    const review = {
+        userId : req.user._id,
+        name : req.user.name,
+        rating : Number(rating),
+        comment,
+    }
+
+    const product = await Product.findById(productId);
+
+    let isReviewed = product.reviews.find((rev) => rev.userId.toString() === req.user._id.toString())
+
+    if(isReviewed !== undefined){
+        product.reviews.forEach((rev) => {
+            if(rev.userId.toString() === req.user._id.toString()){
+                rev.rating = rating,
+                rev.comment = comment
+            }
+        })
+    }else{
+        product.reviews.push(review);
+    }
+
+    product.numberOfReviews = product.reviews.length;
+    let averageRating = 0;
+    
+    product.reviews.forEach((rev) => {
+        averageRating = averageRating + rev.rating;
+        console.log(averageRating);
+    })
+
+    product.ratings = (averageRating / product.numberOfReviews)
+
+    await product.save({ validateBeforeSave : false});
+
+        res.status(200).json({
+            success : true,
+            message : "Review successfully saved",
+        })
+})
