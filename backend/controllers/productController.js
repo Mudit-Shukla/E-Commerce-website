@@ -3,6 +3,7 @@ const Product = require("../models/productModel");
 const TryCatch = require("../middlewares/catchAsyncErrors");
 const ApiFeatures = require("../utils/apiFeatures");
 const User = require("../models/userModel");
+const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 
 // CREATE PRODUCT 
 exports.createProduct = TryCatch(async (req, res) => {
@@ -121,4 +122,49 @@ exports.createProductReview = TryCatch(async (req, res, next) => {
             success : true,
             message : "Review successfully saved",
         })
+})
+
+// ********** GET ALL PRODUCT REVIEWS ********* //
+exports.getAllReviews = catchAsyncErrors(async (req, res, next) => {
+    const product = await Product.findById(req.query.id);
+    console.log(product);
+    if(!product){
+        return next(() => console.log("product not found"));
+    }
+    res.status(200).json({
+        success : true,
+        reviews : product.reviews
+    })
+})
+
+
+// ************  DELETE REVIEW ********** //
+exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
+    const product = await Product.findById(req.query.productId);
+
+    if(!product){
+        return next(() => console.log("Product not found"));
+    }
+
+    const allReviews = product.reviews.filter((rev) => {
+        rev._id.toString() !== req.query.id.toString()
+    })
+
+    product.reviews = allReviews;
+
+    let sum = 0;
+    product.reviews.forEach(rev => sum += rev.rating)
+    if(product.reviews.length === 0)
+        product.ratings = 0;
+    else
+        product.ratings = sum / product.reviews.length;
+        
+    product.numberOfReviews = product.reviews.length;
+
+    await product.save({ validateBeforeSave : false});
+
+    res.status(200).json({
+        success : true,
+        message : "Review successfully deleted"
+    })
 })
