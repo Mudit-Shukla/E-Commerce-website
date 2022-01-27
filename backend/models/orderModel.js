@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const run = require("nodemon/lib/monitor/run");
+const Product = require("../models/productModel")
+const User = require("../models/userModel")
 
-const Order = new mongoose.Schema({
-    shipingInfo : {
+const order = new mongoose.Schema({
+    shippingInfo : {
         address : {
             type : String,
             required : true,
@@ -50,15 +51,15 @@ const Order = new mongoose.Schema({
                 required : true,
             },
             product : {
-                productId : mongoose.Schema.ObjectId,
-                ref : "Product",
+                type : mongoose.Schema.Types.ObjectId,
+                ref : Product,
                 required : true,
             }
         }
     ],
     user : {
-        type : mongoose.Schema.ObjectId,
-        ref : "User",
+        type : mongoose.Schema.Types.ObjectId,
+        ref : User,
         required : true,
     },
     paymentInfo : {
@@ -100,11 +101,12 @@ const Order = new mongoose.Schema({
         required : true,
         default : "Processing"
     },
-    deleiveredAt : Date,
+    deliveredAt : Date,
     createdAt : {
         type : Date,
         default : Date.now(),
     }
 })
 
-module.exports = mongoose.model("Order", Order);
+
+module.exports = mongoose.model("Order", order);
