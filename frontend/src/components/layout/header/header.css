@@ -1,0 +1,65 @@
+.overlay{
+    height : 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    background-color: #3E497A;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 12%;
+    justify-content: space-around;
+}
+
+.header .logo h1{
+    font-style: italic;
+    color: aliceblue;
+    margin-left: 5px;
+    font-size: 90px;
+}
+
+.menu{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.navItem {
+    display: flex;
+    margin-right: 25px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+    padding-right: 30px;
+    font-size: 35px;
+    font-weight: 500;
+
+}
+
+.icon{
+    color: white;
+    padding-right: 40px;
+    transform: scale(1.7);
+    margin-right: 15px;
+}
+
+.hamBurger {
+    transform: scale(1.8);
+    padding : 15px;
+    cursor: pointer;
+}
+.close{
+    transform: scale(1.8);
+    padding : 15px;
+    cursor: pointer;
+}
