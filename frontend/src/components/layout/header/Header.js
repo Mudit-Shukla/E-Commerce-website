@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 export const Header = () => {
 
-    const [wide, setWide] = useState("100%")
+    const [wide, setWide] = useState("0%")
 
     return (
         <>
