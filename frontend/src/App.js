@@ -1,13 +1,26 @@
 import './App.css';
 import Footer from './components/layout/footer/Footer';
-import {Header} from './components/layout/header/Header';
+import { Header } from './components/layout/header/Header';
+import Home from './components/Home/Home'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 
 
 function App() {
   return (
     <>
-    <Header/>
-    <Footer/>
+
+      <Router>
+        <Header/>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+        </Routes>
+        <Footer/>
+      </Router>
+
     </>
   );
 }
