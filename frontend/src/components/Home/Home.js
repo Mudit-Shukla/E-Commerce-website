@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Home/Home.css'
 import Product from './Product.js';
+import MetaData from '../layout/MetaData';
 
 const product = {
   name :'US POLO',
@@ -12,6 +13,7 @@ const product = {
 const Home = () => {
   return (
       <>
+<MetaData title ='Buy&Joy'/>
         <div className='banner'>
             <p> Welcome to Buy & Joy</p>
             <h1>Find Amazing Products Below</h1>
