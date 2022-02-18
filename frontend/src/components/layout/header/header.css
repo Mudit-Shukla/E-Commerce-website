@@ -1,11 +1,11 @@
 .overlay{
     height : 100vh;
     width: 100%;
-    position: fixed;
+    position: absolute;
     z-index: 1000;
     left: 0;
     top: 0;
-    background-color: #3E497A;
+    background-color: #3027ae;
     overflow-x: hidden;
     transition: 0.5s;
 }
