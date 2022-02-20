@@ -14,11 +14,11 @@ function App() {
     <>
 
       <Router>
-        <Header/>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </Router>
 
     </>

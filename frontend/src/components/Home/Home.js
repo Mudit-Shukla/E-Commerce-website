@@ -4,6 +4,7 @@ import Product from './Product.js';
 import MetaData from '../layout/MetaData';
 import { getProduct } from '../../redux/actions/productAction';
 import { useSelector, useDispatch } from 'react-redux'
+import Loader from '../layout/loader/Loader';
 
 
 
@@ -19,7 +20,7 @@ const Home = () => {
   return (
 
     <>
-      {loading ? "Loading" : <>
+       {loading ? <Loader/> : <>
         <MetaData title='Buy&Joy' />
         <div className='banner'>
           <p> Welcome to Buy & Joy</p>
@@ -37,8 +38,8 @@ const Home = () => {
           )}
         </div>
       </>}
-    </>
-
+  
+      </>
   );
 };
 
