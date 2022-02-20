@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../Home/Home.css'
 import Product from './Product.js';
 import MetaData from '../layout/MetaData';
+import { getProduct } from '../../redux/actions/productAction';
+import {useSelector, useDispatch} from 'react-redux'
 
 const product = {
   name :'US POLO',
@@ -11,6 +13,12 @@ const product = {
 }
 
 const Home = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProduct());
+  }, [dispatch]);
   return (
       <>
 <MetaData title ='Buy&Joy'/>
