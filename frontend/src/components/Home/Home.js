@@ -3,7 +3,7 @@ import '../Home/Home.css'
 import Product from './Product.js';
 import MetaData from '../layout/MetaData';
 import { getProduct } from '../../redux/actions/productAction';
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 
 
@@ -15,26 +15,30 @@ const Home = () => {
     dispatch(getProduct());
   }, [dispatch]);
 
-  const {loading, error, products, productsCount} = useSelector(state=> (state.products))
+  const { loading, error, products, productsCount } = useSelector(state => (state.products))
   return (
-      <>
-<MetaData title ='Buy&Joy'/>
+
+    <>
+      {loading ? "Loading" : <>
+        <MetaData title='Buy&Joy' />
         <div className='banner'>
-            <p> Welcome to Buy & Joy</p>
-            <h1>Find Amazing Products Below</h1>
-            <a href = '#container'>
-              <span></span>
-            </a>
+          <p> Welcome to Buy & Joy</p>
+          <h1>Find Amazing Products Below</h1>
+          <a href='#container'>
+            <span></span>
+          </a>
         </div>
 
-        <h2 className='heading'>Featured Products</h2> 
+        <h2 className='heading'>Featured Products</h2>
 
-        <div className='container' id = 'container'>
-          {products && products.map((product) => 
-            <Product product={product}/>
+        <div className='container' id='container'>
+          {products && products.map((product) =>
+            <Product product={product} />
           )}
         </div>
-      </>
+      </>}
+    </>
+
   );
 };
 
