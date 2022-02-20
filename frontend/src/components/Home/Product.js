@@ -6,7 +6,6 @@ const options = {
     edit : false,
     isHalf : true,
     activeColor : 'gold',
-    value: 3.5,
     size : window.innerWidth < 600 ? 18 : 25,
 }
 
@@ -16,9 +15,9 @@ const Product = ({product}) => {
         <img src = {product.images[0].url} alt = 't-shirt'/>
         <p>{product.name}</p>
         <div>
-            <ReactStars {...options}/> <span  className='review' >(10 reviews)</span>
+            <ReactStars {...options} value = {product.rating}/> <span  className='review' >({product.numberOfReviews} reviews)</span>
         </div>
-        <p>{product.price}</p>
+        <p>Rs{product.price}</p>
       </Link>
     );
 }

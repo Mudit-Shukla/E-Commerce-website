@@ -22,10 +22,12 @@ const product = new mongoose.Schema({
     images : [{
         publicId : {
             type : Number,
+            default: 1 + Math.floor(Math.random()*100),
             required : true
         },
         url : {
             type : String,
+            default: `"https://picsum.photos/350/450"`,
             required : true
         }
     }],
